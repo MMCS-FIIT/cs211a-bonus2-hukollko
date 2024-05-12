@@ -6,11 +6,14 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
+
+
 
 public class TelegramBot
 {
     // Токен TG-бота. Можно получить у @BotFather
-    private const string BotToken = "ВАШ_ТОКЕН_ИДЕНТИФИКАЦИИ_БОТА";
+    private const string BotToken = "7015793580:AAETlt5qHFvNNgNAfcI2iUMuvf_ifXcSCU0";
     
     /// <summary>
     /// Инициализирует и обеспечивает работу бота до нажатия клавиши Esc
@@ -21,6 +24,8 @@ public class TelegramBot
         // историю сообщений для каждого пользователя), то это всё надо инициализировать в этом методе.
         // TODO: Инициализация необходимых полей
         
+
+
         // Инициализируем наш клиент, передавая ему токен.
         var botClient = new TelegramBotClient(BotToken);
         
@@ -76,20 +81,50 @@ public class TelegramBot
         {
             return;
         }
-
+        string stickerPackLink = "oZMDScdiFTheJcWisQ_by_stickers_stealer_bot";
         // Получаем ID чата, в которое пришло сообщение. Полезно, чтобы отличать пользователей друг от друга.
         var chatId = message.Chat.Id;
         
         // Печатаем на консоль факт получения сообщения
         Console.WriteLine($"Получено сообщение в чате {chatId}: '{messageText}'");
 
+        Message message1 = await botClient.SendTextMessageAsync(
+                chatId: chatId,
+                text: "Хай! Хочешь узнать, какая ты мемная кошечка? Тогда давай начнем!",
+                parseMode: ParseMode.MarkdownV2,
+                disableNotification: true,
+                replyToMessageId: update.Message.MessageId,
+                replyMarkup: new InlineKeyboardMarkup(
+                    InlineKeyboardButton.WithUrl(
+                        text: "Проверьте метод отправки сообщений",
+                        url: "https://core.telegram.org/bots/api#sendmessage")),
+                cancellationToken: cancellationToken);
+
         // TODO: Обработка пришедших сообщений
-        
+        if (messageText == "привет" || messageText == "старт" || messageText == "здравствуй" || messageText == "добрый день")
+        {
+            try
+            {
+                /*  ??????????????????????????
+                Message message0 = await botClient.SendStickerAsync(
+                chatId: chatId,
+                sticker: InputFileId.Equals("CAACAgQAAxkBAAEFXYBmQSKsV1P8eS9KuhDAprSSC8F6RwACigADTqDDMPyviXYant8fNQQ"),
+                cancellationToken: cancellationToken);
+                */
+                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+            }
+        }    
+        /*
         // Отправляем обратно то же сообщение, что и получили
         Message sentMessage = await botClient.SendTextMessageAsync(
             chatId: chatId,
             text: "Ты написал:\n" + messageText,
             cancellationToken: cancellationToken);
+        */
     }
 
     /// <summary>
